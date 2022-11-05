@@ -1,5 +1,6 @@
 import mysql.connector
 import os
+import pyinputplus
 
 clear = lambda: os.system('cls')
 
@@ -24,13 +25,20 @@ for x in query:
 
 for i in wybor_kategorii_z_numerem:
     print(i)
-
-wybrana_kategoria = input("Wybierz numer kategorii:\n")
+wybrana_kategoria = pyinputplus.inputInt("Type in the number of category")
 
 query2 = mydb.cursor()
 query2.execute("USE slowka")
 query3 = mydb.cursor()
-query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]))
+
+amount_choice = pyinputplus.inputInt("1. All words\n2. Specific amount of words")
+if amount_choice == 1:
+    query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]))
+else:
+    amount_of_words_choice = pyinputplus.inputInt("Type in number of words to learn")
+    print("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + "ORDER BY rand() LIMIT " + str(amount_of_words_choice))
+    query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + "ORDER BY rand() LIMIT " + str(amount_of_words_choice))
+
 
 licznik_bledow = 0
 lista_slowek = []
