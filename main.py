@@ -3,7 +3,6 @@ import os
 import pyinputplus
 
 clear = lambda: os.system('cls')
-
 try:
     mydb = mysql.connector.connect(host="localhost", user="root", password="")
 except:
@@ -25,20 +24,20 @@ for x in query:
 
 for i in wybor_kategorii_z_numerem:
     print(i)
-wybrana_kategoria = pyinputplus.inputInt("Type in the number of category")
+wybrana_kategoria = pyinputplus.inputInt("Type in the number of category:\n")
 
 query2 = mydb.cursor()
 query2.execute("USE slowka")
 query3 = mydb.cursor()
 
-amount_choice = pyinputplus.inputInt("1. All words\n2. Specific amount of words")
+amount_choice = pyinputplus.inputInt("1. All words\n2. Specific amount of words\nChoose one option:\n")
 if amount_choice == 1:
     query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]))
 else:
-    amount_of_words_choice = pyinputplus.inputInt("Type in number of words to learn")
-    print("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + "ORDER BY rand() LIMIT " + str(amount_of_words_choice))
-    query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + "ORDER BY rand() LIMIT " + str(amount_of_words_choice))
+    amount_of_words_choice = pyinputplus.inputInt("Type in number of words to learn:\n")
+    query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + " ORDER BY RAND() LIMIT " + str(amount_of_words_choice))
 
+clear()
 
 licznik_bledow = 0
 lista_slowek = []
@@ -52,7 +51,7 @@ slowka_do_poprawy = []
 odpowiedzi_do_slowek_do_poprawy = []
 for i in lista_slowek:
     clear()
-    print("Pozostało " + str(slowka_do_przetlumaczenia) + " do przetłumaczenia")
+    print("Pozostało " + str(slowka_do_przetlumaczenia) + " do przetłumaczenia\n")
     odpowiedz = input("Przetłumacz: " + i[2] + "\n")
     if odpowiedz == i[1]:
         print("Dobrze")
