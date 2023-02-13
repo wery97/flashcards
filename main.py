@@ -20,19 +20,27 @@ for x in query:
     for y in x:
         wybor_kategorii.append(y)
         wybor_kategorii_z_numerem.append(str(licznik) + "." + y)
-
-
-for i in wybor_kategorii_z_numerem:
-    print(i)
-wybrana_kategoria = pyinputplus.inputInt("Type in the number of category:\n")
-
 query2 = mydb.cursor()
 query2.execute("USE slowka")
+
+number_of_words_in_category = []
+for i in range(licznik):
+    query2.execute("select count(*) from " + wybor_kategorii[i])
+    for j in query2:
+        number_of_words_in_category.append(j[0])
+
+for i in range(licznik):
+    print(wybor_kategorii_z_numerem[i] + " (words {})".format(number_of_words_in_category[i]))
+wybrana_kategoria = pyinputplus.inputInt("Type in the number of category:\n")
+
+
 query3 = mydb.cursor()
 
-amount_choice = pyinputplus.inputInt("1. All words\n2. Specific amount of words\nChoose one option:\n")
+amount_choice = pyinputplus.inputInt("1. All words\n2. Last 40 words\n3. Specific amount of random words\nChoose one option:\n")
 if amount_choice == 1:
     query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]))
+elif amount_choice == 2:
+    query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + " order by id desc limit 40")
 else:
     amount_of_words_choice = pyinputplus.inputInt("Type in number of words to learn:\n")
     query3.execute("SELECT * FROM " + str(wybor_kategorii[int(wybrana_kategoria) - 1]) + " ORDER BY RAND() LIMIT " + str(amount_of_words_choice))
